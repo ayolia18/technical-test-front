@@ -4,7 +4,7 @@ export const TASK_STATUS = [{
   label: 'All',
   value: 'ALL'
 }, {
-  label: 'ToDo',
+  label: 'To Do',
   value: 'TODO'
 }, {
   label: 'Done',
@@ -86,7 +86,11 @@ export default class TasksService extends ApiModel {
    * @param {*} form
    * @returns Task
    */
-  // this.post(url, body, { fields: TASK_FIELDS })
+  postTask (body) {
+    return this.post('', body, {
+      fields: TASKS_FIELDS
+    })
+  }
 
   /**
    * Update a task ?
@@ -95,7 +99,12 @@ export default class TasksService extends ApiModel {
    * @param {*} form
    * @returns
    */
-  // this.patch(url, body, { fields: TASK_FIELDS })
+  // this.patch(url, body, { fields: TASK_FIELDS }
+  patchTask (id, body) {
+    return this.patch(`${id}`, body, {
+      fields: TASKS_FIELDS
+    })
+  }
 
   /**
    * Remove a task ?
@@ -104,4 +113,9 @@ export default class TasksService extends ApiModel {
    * @returns
    */
   // this.delete(url)
+  deleteTask (id) {
+    return this.delete(`${id}`, {
+      fields: TASKS_FIELDS
+    })
+  }
 }
