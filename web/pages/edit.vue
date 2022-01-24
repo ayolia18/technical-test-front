@@ -32,6 +32,7 @@
             Cancel
           </button>
         </NuxtLink>
+        <span v-if="errorField" class="text-red-500">Veuillez vérifier vos champs</span>
       </div>
     </div>
   </div>
@@ -50,6 +51,8 @@ export default {
     }
     if (task.date) {
       task.date = new Date(task.date).toISOString().substr(0, 10)
+    } else {
+      task.date = ''
     }
 
     return {
@@ -71,12 +74,19 @@ export default {
           label: 'Done',
           value: 'DONE'
         }
-      ]
+      ],
+      errorField: false
     }
   },
   methods: {
     editForm () {
-      this.$api.tasks.patchTask(this.$route.query.id, { title: this.task.title, description: this.task.description, date: this.task.date, status: this.task.status.value })
+      if (this.task.title !== '' && this.task.description !== '') {
+        this.$api.tasks.patchTask(this.$route.query.id, { title: this.task.title, description: this.task.description, date: this.task.date, status: this.task.status.value }).then(() => {
+          this.$router.push({ name: 'index' })
+        })
+      } else {
+        this.errorField = true
+      }
     }
   }
 }

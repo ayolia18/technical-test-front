@@ -87,6 +87,9 @@ export default class TasksService extends ApiModel {
    * @returns Task
    */
   postTask (body) {
+    if (!body.date) {
+      delete body.date
+    }
     return this.post('', body, {
       fields: TASKS_FIELDS
     })
@@ -101,6 +104,9 @@ export default class TasksService extends ApiModel {
    */
   // this.patch(url, body, { fields: TASK_FIELDS }
   patchTask (id, body) {
+    if (!body.date) {
+      delete body.date
+    }
     return this.patch(`${id}`, body, {
       fields: TASKS_FIELDS
     })

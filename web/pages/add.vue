@@ -32,6 +32,7 @@
             Cancel
           </button>
         </NuxtLink>
+        <span v-if="errorField" class="text-red-500">Veuillez vérifier vos champs</span>
       </div>
     </div>
   </div>
@@ -54,12 +55,19 @@ export default {
           label: 'Done',
           value: 'DONE'
         }
-      ]
+      ],
+      errorField: false
     }
   },
   methods: {
     postForm () {
-      this.$api.tasks.postTask({ title: this.title, description: this.description, date: this.date, status: this.status })
+      if (this.title !== '' && this.description !== '') {
+        this.$api.tasks.postTask({ title: this.title, description: this.description, date: this.date, status: this.status }).then(() => {
+          this.$router.push({ name: 'index' })
+        })
+      } else {
+        this.errorField = true
+      }
     }
   }
 }
